@@ -6,6 +6,17 @@
 #include "MenuWidget.h"
 #include "MainMenu.generated.h"
 
+USTRUCT()
+struct FServerData
+{
+	GENERATED_BODY()
+
+	FString Name;
+	uint16 CurrentPlayers;
+	uint16 MaxPlayers;
+	FString HostUsername;
+};
+
 /**
 *
 */
@@ -17,7 +28,7 @@ class PUZZLEPLATFORMS_API UMainMenu : public UMenuWidget
 public:
 	UMainMenu (const FObjectInitializer & ObjectInitializer);
 
-	void SetServerList(TArray<FString> ServerNames);
+	void SetServerList(TArray<FServerData> ServerNames);
 
 	void SelectIndex(uint32 Index);
 
@@ -29,48 +40,64 @@ private:
 	TSubclassOf<class UUserWidget> ServerRowClass;
 
 	UPROPERTY(meta = (BindWidget))
-		class UButton* HostButton;
+	class UButton* HostButton;
 
 	UPROPERTY(meta = (BindWidget))
-		class UButton* JoinButton;
+	class UButton* JoinButton;
 
 	UPROPERTY(meta = (BindWidget))
-		class UButton* QuitButton;
+	class UButton* QuitButton;
 
 	UPROPERTY(meta = (BindWidget))
-		class UButton* CancelJoinMenuButton;
+	class UButton* CancelJoinMenuButton;
 
 	UPROPERTY(meta = (BindWidget))
-		class UButton* ConfirmJoinMenuButton;
+	class UButton* ConfirmJoinMenuButton;
 
 	UPROPERTY(meta = (BindWidget))
-		class UWidgetSwitcher* MenuSwitcher;
+	class UWidgetSwitcher* MenuSwitcher;
 
 	UPROPERTY(meta = (BindWidget))
-		class UWidget* MainMenu;
+	class UWidget* MainMenu;
 
 	UPROPERTY(meta = (BindWidget))
-		class UWidget* JoinMenu;
+	class UWidget* JoinMenu;
 
 	UPROPERTY(meta = (BindWidget))
-		class UPanelWidget* ServerList;
+	class UWidget* HostMenu;
+
+	UPROPERTY(meta = (BindWidget))
+	class UEditableTextBox* ServerHostName;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* CancelHostMenuButton;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* ConfirmHostMenuButton;
+
+	UPROPERTY(meta = (BindWidget))
+	class UPanelWidget* ServerList;
 
 	UFUNCTION()
-		void HostServer();
+	void HostServer();
 
 	UFUNCTION()
-		void JoinServer();
-
-
-	UFUNCTION()
-		void OpenJoinMenu();
+	void JoinServer();
 
 	UFUNCTION()
-		void OpenMainMenu();
+	void OpenHostMenu();
 
 	UFUNCTION()
-		void QuitPressed();
+	void OpenJoinMenu();
+
+	UFUNCTION()
+	void OpenMainMenu();
+
+	UFUNCTION()
+	void QuitPressed();
 
 	TOptional<uint32> SelectedIndex;
+
+	void UpdateChildren();
 
 };
